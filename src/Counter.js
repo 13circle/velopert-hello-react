@@ -1,9 +1,23 @@
 import React, { Component } from "react";
 
+const containerStyle = {
+  height: "60vh",
+  display: "flex",
+  alignItems: "center",
+};
+
+const subContainerStyle = {
+  display: "flex",
+  width: "100%",
+  flexDirection: "column",
+  alignItems: "center",
+};
+
 const btnStyle = {
-  padding: "0.5vw",
-  width: "5vw",
-  marginRight: "1vw",
+  padding: "0.3em",
+  textAlign: "center",
+  width: "2em",
+  margin: "0.5em",
   fontSize: "20pt",
   cursor: "pointer",
 };
@@ -87,27 +101,31 @@ class Counter extends Component {
   render() {
     if (this.state.error) return <h1>Error at line 12: "Error DAISUKI!"</h1>;
     return (
-      <div>
-        <h1>Counter</h1>
-        <div>Value: {this.state.number}</div>
-        {/**
-         * << CAUTION >>
-         * While setting an event prop, pass a function
-         * reference value only, not calling a function.
-         * Otherwise, it will cause infinite re-rendering
-         * with the following routine:
-         * Rendering -> Call function -> setState
-         * -> Re-rendering -> Call function -> ...
-         * Thus, DO NOT CALL YOUR METHODS OR FUNCTIONS
-         * WHILE SETTING AN EVENT.
-         */}
-        {this.state.number === 4 && <Problematic />}
-        <button onClick={this.handleIncrease} style={btnStyle}>
-          +
-        </button>
-        <button onClick={this.handleDecrease} style={btnStyle}>
-          -
-        </button>
+      <div style={containerStyle}>
+        <div style={subContainerStyle}>
+          <h1>Counter</h1>
+          <div>Value: {this.state.number}</div>
+          {/**
+           * << CAUTION >>
+           * While setting an event prop, pass a function
+           * reference value only, not calling a function.
+           * Otherwise, it will cause infinite re-rendering
+           * with the following routine:
+           * Rendering -> Call function -> setState
+           * -> Re-rendering -> Call function -> ...
+           * Thus, DO NOT CALL YOUR METHODS OR FUNCTIONS
+           * WHILE SETTING AN EVENT.
+           */}
+          {this.state.number === 4 && <Problematic />}
+          <div style={{width: "fit-content"}}>
+            <button onClick={this.handleIncrease} style={btnStyle}>
+              +
+            </button>
+            <button onClick={this.handleDecrease} style={btnStyle}>
+              -
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
