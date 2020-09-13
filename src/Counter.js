@@ -8,6 +8,11 @@ const btnStyle = {
   cursor: "pointer",
 };
 
+const Problematic = () => {
+  throw new Error("Error DAISUKI!");
+  return <div></div>;
+};
+
 class Counter extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +20,9 @@ class Counter extends Component {
     this.handleDecrease = this.handleDecrease.bind(this);
     this.state = {
       number: 0,
+      error: false,
     };
+    console.log("constructor");
   }
 
   /*
@@ -23,6 +30,36 @@ class Counter extends Component {
     number: 0,
   }
   */
+
+  componentWillMount() {
+    console.log("componentWillMount (deprecated)");
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount");
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // Abort re-rendering if the state "number" is
+    // a multiple of 5.
+    console.log("shouldComponentUpdate");
+    if (nextState.number % 5 === 0) return false;
+    return true;
+  }
+
+  componentWillUpdate(prevProps, prevState) {
+    console.log("componentWillUpdate");
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate");
+  }
+
+  componentDidCatch(error, info) {
+    this.setState({
+      error: true,
+    });
+  }
 
   handleIncrease() {
     /*
@@ -48,6 +85,7 @@ class Counter extends Component {
   }
 
   render() {
+    if (this.state.error) return <h1>Error at line 12: "Error DAISUKI!"</h1>;
     return (
       <div>
         <h1>Counter</h1>
@@ -63,8 +101,13 @@ class Counter extends Component {
          * Thus, DO NOT CALL YOUR METHODS OR FUNCTIONS
          * WHILE SETTING AN EVENT.
          */}
-        <button onClick={this.handleIncrease} style={btnStyle}>+</button>
-        <button onClick={this.handleDecrease} style={btnStyle}>-</button>
+        {this.state.number === 4 && <Problematic />}
+        <button onClick={this.handleIncrease} style={btnStyle}>
+          +
+        </button>
+        <button onClick={this.handleDecrease} style={btnStyle}>
+          -
+        </button>
       </div>
     );
   }
